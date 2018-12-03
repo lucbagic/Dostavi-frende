@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "446208118830",
+    "firebase_url": "https://dostavi-frende.firebaseio.com",
+    "project_id": "dostavi-frende",
+    "storage_bucket": "dostavi-frende.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:446208118830:android:3a825c4d6e06480d",
+        "android_client_info": {
+          "package_name": "hr.dostavifrende.dostavifrende"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "446208118830-a3jke04i3k7ki65u4utbpmk7cinh6m5j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnrzDWgvTkVVpLmMVdIdmbLG6-ykMXFos"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
