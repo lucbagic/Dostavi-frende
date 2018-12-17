@@ -1,5 +1,6 @@
 package hr.dostavifrende.dostavifrende;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -44,8 +45,11 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()){
                                 Toast.makeText(getApplicationContext(), "Uspješno ste se registrirali", Toast.LENGTH_SHORT).show();
+                                finish();
+
+                                Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                                startActivity(i);
                             }else {
-                                Log.i("log",loz+email);
                                 Toast.makeText(getApplicationContext(), "Korisnik nije kreiran", Toast.LENGTH_SHORT).show();
                             }
                         }
