@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.i("OOOOO", "HMMMM");
                                 Toast.makeText(getApplicationContext(), "Uspješna prijava", Toast.LENGTH_SHORT).show();
                                 finish();
-                                Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                                Intent i = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(i);
                             }else {
                                 Toast.makeText(getApplicationContext(), "Neuspješna prijava", Toast.LENGTH_SHORT).show();
