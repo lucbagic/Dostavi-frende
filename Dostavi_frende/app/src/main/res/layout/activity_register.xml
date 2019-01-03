@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Ime"
-                android:inputType="textPersonName"
+                android:inputType="textCapWords"
                 android:padding="10dp"
                 android:textSize="18sp" />
 
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Prezime"
-                android:inputType="textPersonName"
+                android:inputType="textCapWords"
                 android:padding="10dp"
                 android:textSize="18sp" />
 

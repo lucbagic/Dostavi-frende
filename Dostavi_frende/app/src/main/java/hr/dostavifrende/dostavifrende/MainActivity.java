@@ -1,21 +1,23 @@
 package hr.dostavifrende.dostavifrende;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity {
-    //GOLD
+import hr.dostavifrende.dostavifrende.fragments.ActiveUsersFragment;
+import hr.dostavifrende.dostavifrende.fragments.ChatFragment;
+import hr.dostavifrende.dostavifrende.fragments.OfferServiceFragment;
+import hr.dostavifrende.dostavifrende.fragments.ProfileFragment;
+import hr.dostavifrende.dostavifrende.fragments.UserUnknownFragment;
 
+public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
 
     @Override

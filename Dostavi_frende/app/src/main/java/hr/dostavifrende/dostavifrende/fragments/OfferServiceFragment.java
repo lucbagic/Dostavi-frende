@@ -1,4 +1,4 @@
-package hr.dostavifrende.dostavifrende;
+package hr.dostavifrende.dostavifrende.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import hr.dostavifrende.dostavifrende.R;
 
 public class OfferServiceFragment extends Fragment {
     @Nullable

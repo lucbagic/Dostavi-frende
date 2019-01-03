@@ -1,10 +1,12 @@
 package hr.dostavifrende.dostavifrende;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -25,6 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser firebaseUser;
     DatabaseReference rootReference;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,17 +43,42 @@ public class RegisterActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         rootReference = FirebaseDatabase.getInstance().getReference();
+        progressDialog = new ProgressDialog(this);
+    }
+    private String validateFields(){
+        String errorMessage = "";
+        String lozinka = editTextLozinka.getText().toString().trim();
+        String lozinka1 = editTextLozinka1.getText().toString().trim();
+        if (editTextEmail.getText().toString().equals("") || editTextLozinka.getText().toString().equals("")
+                || editTextIme.getText().toString().equals("") || editTextPrezime.getText().toString().equals("")
+                || editTextLozinka1.getText().toString().equals("")){
+            errorMessage = "Niste ispunili sva polja.";
+        }
+        else if (!lozinka.equals(lozinka1)) {
+            errorMessage = "Lozinke se ne podudaraju.";
+        }
+        else if (Integer.parseInt(editTextGodinaRodenja.getText().toString())<1900){
+            errorMessage = "Kriva godina rođenja.";
+        }else {
+            errorMessage = "";
+        }
+        return errorMessage;
     }
 
     public void createUser(View v){
-        if(editTextEmail.getText().toString().equals("") && editTextLozinka.getText().toString().equals("")){
-            Toast.makeText(getApplicationContext(), "Niste ispunili sva polja", Toast.LENGTH_SHORT).show();
-        }else {
+        progressDialog.setMessage("Registracija u tijeku.");
+        progressDialog.show();
+        String errorMessage = validateFields();
+        if(errorMessage != ""){
+            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
+        }
+        else {
             final String email = editTextEmail.getText().toString();
             final String lozinka = editTextLozinka.getText().toString();
             final String ime = editTextIme.getText().toString();
             final String prezime = editTextPrezime.getText().toString();
-            final Integer godinaRodenja = Integer.valueOf(editTextGodinaRodenja.getText().toString());
+            final Integer godinaRodenja = Integer.parseInt(editTextGodinaRodenja.getText().toString());
 
             auth.createUserWithEmailAndPassword(email, lozinka)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -64,6 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()){
+                                                    progressDialog.dismiss();
                                                     Toast.makeText(getApplicationContext(), "Uspješno ste se registrirali", Toast.LENGTH_SHORT).show();
                                                     finish();
                                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -72,6 +101,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             }
                                         });
                             }else {
+                                progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), "Korisnik nije kreiran", Toast.LENGTH_SHORT).show();
                             }
                         }
