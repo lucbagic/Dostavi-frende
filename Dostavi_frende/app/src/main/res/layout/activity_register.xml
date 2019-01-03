@@ -48,12 +48,12 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/editTextGodinaRodjenja"
+                android:id="@+id/editTextGodinaRodenja"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Godina rođenja"
-                android:inputType="date"
+                android:inputType="number"
                 android:padding="10dp"
                 android:textSize="18sp"/>
 
