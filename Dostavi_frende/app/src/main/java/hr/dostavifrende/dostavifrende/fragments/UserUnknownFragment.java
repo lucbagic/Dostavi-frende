@@ -13,6 +13,6 @@ public class UserUnknownFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_user_unknown, container, false);
+        return inflater.inflate(R.layout.fragment_user_unknown, container, false);
     }
 }

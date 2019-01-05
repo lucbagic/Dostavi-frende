@@ -17,14 +17,12 @@ import com.google.firebase.auth.FirebaseAuth;
 public class LoginActivity extends AppCompatActivity {
     EditText editTextEmail;
     EditText editTextLozinka;
-
     FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextLozinka = findViewById(R.id.editTextLozinka);
 
@@ -40,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()){
-                                Log.i("OOOOO", "HMMMM");
                                 Toast.makeText(getApplicationContext(), "Uspješna prijava", Toast.LENGTH_SHORT).show();
                                 finish();
                                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
