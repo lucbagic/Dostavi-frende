@@ -32,7 +32,6 @@ import hr.dostavifrende.dostavifrende.fragments.UserUnknownFragment;
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser user;
-    DatabaseReference reference;
     StorageReference storageReference;
     Uri imageUri;
     ProgressDialog progressDialog;

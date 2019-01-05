@@ -11,15 +11,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/imageViewProfilna"
-        android:layout_width="148dp"
-        android:layout_height="185dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
-        android:src="@drawable/ic_person_black_24dp"/>
+        <ImageView
+            android:id="@+id/imageViewProfilna"
+            android:layout_width="148dp"
+            android:layout_height="185dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="25dp"
+            android:src="@drawable/ic_person_black_24dp"/>
 
         <TextView
             android:id="@+id/textViewSlikaProfila"
@@ -30,25 +30,43 @@
             android:onClick="openGallery"
             android:textColor="@color/colorPrimaryDark"
             android:text="Promijeni sliku profila" />
-    <TextView
-        android:id="@+id/textViewImePrezime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="25dp"
-        android:background="@color/colorPrimary"
-        android:gravity="center_horizontal"
-        android:onClick="signOut"
-        android:padding="15dp"
-        android:text="Odjava"
-        android:textColor="#ffffff"
-        android:textSize="15sp" />
+        <TextView
+            android:id="@+id/textViewImePrezime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:textSize="20dp"
+            android:textColor="#000000"
+            android:textAlignment="center"
+            />
+        <TextView
+            android:id="@+id/textViewEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="#000000"
+            android:textAlignment="center" />
+        <TextView
+            android:id="@+id/textViewGodina"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:layout_marginBottom="25dp"
+            android:textColor="#000000"
+            android:textAlignment="center" />
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="25dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center_horizontal"
+            android:onClick="signOut"
+            android:padding="15dp"
+            android:text="Odjava"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
     </LinearLayout>
 </RelativeLayout>
