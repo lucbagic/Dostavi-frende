@@ -1,10 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ponuda"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp">
 
+        <ImageView
+            android:id="@+id/provjera"
+            android:layout_width="180dp"
+            android:layout_height="119dp"
+            android:layout_margin="10dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/logo"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="PONUDI USLUGU"
+            android:textSize="25dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textAlignment="center"
+            android:shadowColor="@color/colorPrimary"
+            />
+        <EditText
+            android:id="@+id/editTextDatum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="7"
+            android:hint="Datum"
+            android:textSize="18sp"
+            android:padding="10dp"
+            android:inputType="date"
+            android:clickable="true"
+            android:focusable="false" />
+        <AutoCompleteTextView
+            android:id="@+id/textViewGrad"
+            android:hint="Grad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:completionThreshold="1"/>
+
+        <EditText
+            android:id="@+id/editTextPoruka"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Dodatne informacije"
+            android:inputType="textMultiLine" />
+        <Button
+            android:id="@+id/buttonPonudi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:gravity="center_horizontal"
+            android:textColor="#ffffff"
+            android:background="@color/colorPrimary"
+            android:textSize="15sp"
+            android:padding="15dp"
+            android:text="Ponudi" />
+    </LinearLayout>
 </RelativeLayout>

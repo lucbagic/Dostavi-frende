@@ -1,6 +1,5 @@
 package hr.dostavifrende.dostavifrende;
 
-import java.util.Date;
 
 public class User {
     public String lozinka, ime, prezime;

@@ -1,5 +1,6 @@
 package hr.dostavifrende.dostavifrende;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -10,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -22,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.Calendar;
 
 import hr.dostavifrende.dostavifrende.fragments.ActiveUsersFragment;
 import hr.dostavifrende.dostavifrende.fragments.ChatFragment;
@@ -36,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     Uri imageUri;
     ProgressDialog progressDialog;
     ImageView imageViewProfilna;
+
+    EditText editTextDatumOd, editTextDatumDo, editTextVrijemeOd, editTextVrijemeDo, editTextPoruka;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +89,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
+    private android.support.v4.app.Fragment isUserLoggedIn(android.support.v4.app.Fragment returnFragment){
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser == null){
+            returnFragment = new UserUnknownFragment();
+        }
+        return returnFragment;
+    }
+
     public void openRegister(View v){
         Intent i = new Intent(this, RegisterActivity.class);
         startActivity(i);
@@ -98,13 +113,6 @@ public class MainActivity extends AppCompatActivity {
                 new UserUnknownFragment()).commit();
     }
 
-    private android.support.v4.app.Fragment isUserLoggedIn(android.support.v4.app.Fragment returnFragment){
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (firebaseUser == null){
-            returnFragment = new UserUnknownFragment();
-        }
-        return returnFragment;
-    }
 
     public void openGallery(View v){
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -137,5 +145,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    public void offerService(View v){
+
+    }
 
 }
