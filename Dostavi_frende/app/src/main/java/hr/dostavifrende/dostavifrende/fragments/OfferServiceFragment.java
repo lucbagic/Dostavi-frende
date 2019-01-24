@@ -29,7 +29,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -114,6 +113,18 @@ public class OfferServiceFragment extends Fragment {
             }
         });
 
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ime = dataSnapshot.child("ime").getValue().toString();
+                prezime = dataSnapshot.child("prezime").getValue().toString();
+                urlSlike = dataSnapshot.child("urlSlike").getValue().toString();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         return view;
     }
@@ -141,29 +152,13 @@ public class OfferServiceFragment extends Fragment {
             Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
         }
         else {
-            reference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    ime = dataSnapshot.child("ime").getValue().toString();
-                    prezime = dataSnapshot.child("prezime").getValue().toString();
-                    urlSlike = dataSnapshot.child("urlSlike").getValue().toString();
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
             final String grad = textViewGrad.getText().toString();
             final String datum = editTextDatum.getText().toString();
             final String napomena = editTextPoruka.getText().toString();
 
             firebaseUser = auth.getCurrentUser();
-<<<<<<< HEAD
-            Offer newOfferInsertObj = new Offer(firebaseUser.getUid(), grad, napomena);
-=======
             Offer newOfferInsertObj = new Offer(firebaseUser.getUid(), ime+" "+prezime, datum, napomena, grad, urlSlike);
 
->>>>>>> 747359a0ff97420e911ed1ded9342fe7dd4f4c3b
             rootReference.child("Offers").child(datum+" "+Calendar.getInstance().getTimeInMillis()).setValue(newOfferInsertObj)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
