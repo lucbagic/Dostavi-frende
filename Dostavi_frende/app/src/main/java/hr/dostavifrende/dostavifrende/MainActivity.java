@@ -18,13 +18,16 @@ import android.widget.Toast;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 
@@ -38,7 +41,9 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser user;
     StorageReference storageReference;
+    DatabaseReference rootReference;
     Uri imageUri;
+    String urlSlike;
     ProgressDialog progressDialog;
     ImageView imageViewProfilna;
 
@@ -51,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference().child("User_images");
+        rootReference = FirebaseDatabase.getInstance().getReference();
         progressDialog = new ProgressDialog(this);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
@@ -136,6 +142,13 @@ public class MainActivity extends AppCompatActivity {
                             if (task.isSuccessful()){
                                 progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), "Uspješno učitana slika.", Toast.LENGTH_SHORT).show();
+                                storageReference.child(user.getUid()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        urlSlike = uri.toString().trim();
+                                        rootReference.child("Users").child(user.getUid()).child("urlSlike").setValue(urlSlike);
+                                    }
+                                });
                             }else {
                                 Toast.makeText(getApplicationContext(), "Neuspješno učitavanje.", Toast.LENGTH_SHORT).show();
                                 progressDialog.dismiss();

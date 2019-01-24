@@ -110,7 +110,7 @@ public class OfferServiceFragment extends Fragment {
     }
 
     private void updateLabel() {
-        String myFormat = "dd/MM/yy";
+        String myFormat = "dd-MM-yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
         editTextDatum.setText(sdf.format(myCalendar.getTime()));
     }
@@ -136,10 +136,9 @@ public class OfferServiceFragment extends Fragment {
             final String datum = editTextDatum.getText().toString();
             final String napomena = editTextPoruka.getText().toString();
 
-
             firebaseUser = auth.getCurrentUser();
-            Offer newOfferInsertObj = new Offer(firebaseUser.getUid(), datum, napomena);
-            rootReference.child("Cities").child(grad).setValue(newOfferInsertObj)
+            Offer newOfferInsertObj = new Offer(firebaseUser.getUid(),datum, napomena,grad);
+            rootReference.child("Offers").child(datum+" "+Calendar.getInstance().getTimeInMillis()).setValue(newOfferInsertObj)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
