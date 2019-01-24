@@ -113,6 +113,18 @@ public class OfferServiceFragment extends Fragment {
             }
         });
 
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ime = dataSnapshot.child("ime").getValue().toString();
+                prezime = dataSnapshot.child("prezime").getValue().toString();
+                urlSlike = dataSnapshot.child("urlSlike").getValue().toString();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         return view;
     }
@@ -140,18 +152,6 @@ public class OfferServiceFragment extends Fragment {
             Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
         }
         else {
-            reference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    ime = dataSnapshot.child("ime").getValue().toString();
-                    prezime = dataSnapshot.child("prezime").getValue().toString();
-                    urlSlike = dataSnapshot.child("urlSlike").getValue().toString();
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
             final String grad = textViewGrad.getText().toString();
             final String datum = editTextDatum.getText().toString();
             final String napomena = editTextPoruka.getText().toString();
