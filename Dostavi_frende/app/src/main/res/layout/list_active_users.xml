@@ -25,6 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:textSize="13dp"
                 android:layout_toRightOf="@id/imageViewActiveUser" />
 
 
@@ -37,8 +38,6 @@
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@id/imageViewActiveUser"
                 android:background="@color/colorPrimary"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
                 android:text="4.7"
                 android:textStyle="bold" />
 
