@@ -67,7 +67,7 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onSuccess(Uri uri) {
                     urlSlike = uri.toString().trim();
-                    Picasso.with(getContext()).load(urlSlike).rotate(270).into(imageViewProfilna);
+                    Picasso.with(getContext()).load(urlSlike).into(imageViewProfilna);
                 }
             });
         }

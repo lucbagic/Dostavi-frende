@@ -95,7 +95,7 @@ public class ActiveUsersFragment extends Fragment {
         }
         public void setImage(Context ctx, String image){
             ImageView imageViewSlika = view.findViewById(R.id.imageViewActiveUser);
-            Picasso.with(ctx).load(image).rotate(270).into(imageViewSlika);
+            Picasso.with(ctx).load(image).into(imageViewSlika);
         }
     }
 }
