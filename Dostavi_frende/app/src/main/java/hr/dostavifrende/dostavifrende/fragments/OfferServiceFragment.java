@@ -71,6 +71,12 @@ public class OfferServiceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_service_offer, container, false);
 
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+        rootReference = FirebaseDatabase.getInstance().getReference();
+        reference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
+
+
         editTextDatum = view.findViewById(R.id.editTextDatum);
         editTextPoruka = view.findViewById(R.id.editTextPoruka);
 
@@ -78,10 +84,6 @@ public class OfferServiceFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, GRADOVI);
         textViewGrad.setAdapter(adapter);
 
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
-        rootReference = FirebaseDatabase.getInstance().getReference();
-        reference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
 
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
@@ -114,11 +116,15 @@ public class OfferServiceFragment extends Fragment {
         });
 
         reference.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ime = dataSnapshot.child("ime").getValue().toString();
                 prezime = dataSnapshot.child("prezime").getValue().toString();
-                urlSlike = dataSnapshot.child("urlSlike").getValue().toString();
+                if (dataSnapshot.child("urlSlike").getValue() != null){
+                    urlSlike = dataSnapshot.child("urlSlike").getValue().toString();
+                }
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

@@ -9,7 +9,8 @@
     <TextView
         android:id="@+id/textViewNapomena"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/buttonChat"

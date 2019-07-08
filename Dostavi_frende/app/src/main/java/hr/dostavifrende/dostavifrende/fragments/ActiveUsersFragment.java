@@ -53,21 +53,24 @@ public class ActiveUsersFragment extends Fragment {
     public void onStart() {
 
         super.onStart();
+        FirebaseUser user = auth.getCurrentUser();
         FirebaseRecyclerAdapter<Offer, OfferViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Offer, OfferViewHolder>
                 (Offer.class, R.layout.list_active_users, OfferViewHolder.class, rootReference) {
             @Override
             protected void populateViewHolder(final OfferViewHolder viewHolder, final Offer model, int position) {
+
                 viewHolder.setKorisnik(model.getImePrezime());
                 viewHolder.setImage(getContext(), model.getUrlSlike());
 
                 viewHolder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        TextView textViewNapomena = view.findViewById(R.id.textViewNapomena);
-                        viewHolder.setNapomena(model.napomena);
 
                         Dialog myDialog = new Dialog(getContext());
                         myDialog.setContentView(R.layout.costumpopup);
+                        //viewHolder.setNapomena(model.getNapomena());
+                        TextView textViewNapomena = view.findViewById(R.id.textViewNapomena);
+                        textViewNapomena.setText("oijfodseg");
                         myDialog.show();
                     }
                 });
@@ -86,9 +89,9 @@ public class ActiveUsersFragment extends Fragment {
             TextView textViewImePrezime = view.findViewById(R.id.textViewImePrezime);
             textViewImePrezime.setText(imePrezime);
         }
-        public void setNapomena(String napomena){
-            TextView textViewNapomena = view.findViewById(R.id.textViewNapomena);
-            textViewNapomena.setText(napomena);
+       public void setNapomena(String napomena){
+           TextView textViewNapomena = view.findViewById(R.id.textViewNapomena);
+           textViewNapomena.setText(napomena);
         }
         public void setImage(Context ctx, String image){
             ImageView imageViewSlika = view.findViewById(R.id.imageViewActiveUser);
