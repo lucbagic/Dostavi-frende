@@ -54,13 +54,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
+        if(auth != null){
+            user = auth.getCurrentUser();
+        }
         storageReference = FirebaseStorage.getInstance().getReference().child("User_images");
         rootReference = FirebaseDatabase.getInstance().getReference();
         progressDialog = new ProgressDialog(this);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
+
+        //Izmjena fragmenata
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new ActiveUsersFragment()).commit();
     }
@@ -158,9 +162,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    public void offerService(View v){
-
-    }
 
 }

@@ -4,10 +4,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.media.Image;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +21,14 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.Calendar;
 
 import hr.dostavifrende.dostavifrende.Offer;
 import hr.dostavifrende.dostavifrende.R;
@@ -29,7 +36,7 @@ import hr.dostavifrende.dostavifrende.R;
 public class ActiveUsersFragment extends Fragment {
     private View view;
     private RecyclerView activeUsersList;
-    FirebaseAuth auth;
+
     DatabaseReference rootReference;
 
    @Nullable
@@ -37,30 +44,39 @@ public class ActiveUsersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_users_active, container, false);
 
-        auth = FirebaseAuth.getInstance();
-        rootReference = FirebaseDatabase.getInstance().getReference().child("Offers");
-        rootReference.keepSynced(true);
-
+        rootReference = FirebaseDatabase.getInstance().getReference();
         activeUsersList = view.findViewById(R.id.recyclerViewActiveUsers);
         activeUsersList.setHasFixedSize(true);
         activeUsersList.setLayoutManager(new LinearLayoutManager(getContext()));
-
 
         return view;
     }
 
     @Override
     public void onStart() {
-
         super.onStart();
-        FirebaseUser user = auth.getCurrentUser();
         FirebaseRecyclerAdapter<Offer, OfferViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Offer, OfferViewHolder>
-                (Offer.class, R.layout.list_active_users, OfferViewHolder.class, rootReference) {
+                (Offer.class, R.layout.list_active_users, OfferViewHolder.class, rootReference.child("Offers")) {
             @Override
             protected void populateViewHolder(final OfferViewHolder viewHolder, final Offer model, int position) {
-
                 viewHolder.setKorisnik(model.getImePrezime());
-                viewHolder.setImage(getContext(), model.getUrlSlike());
+
+                DatabaseReference slikaKorisnika = rootReference.child("Users").child(model.korisnik.trim()).child("urlSlike");
+                slikaKorisnika.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String slika = dataSnapshot.getValue().toString();
+                        viewHolder.setImage(getContext(), slika);
+                        Log.i("ajmo", slika);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
 
                 viewHolder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -70,7 +86,6 @@ public class ActiveUsersFragment extends Fragment {
                         myDialog.setContentView(R.layout.costumpopup);
                         //viewHolder.setNapomena(model.getNapomena());
                         TextView textViewNapomena = view.findViewById(R.id.textViewNapomena);
-                        textViewNapomena.setText("oijfodseg");
                         myDialog.show();
                     }
                 });
@@ -98,4 +113,8 @@ public class ActiveUsersFragment extends Fragment {
             Picasso.with(ctx).load(image).into(imageViewSlika);
         }
     }
+
+
+
+
 }
