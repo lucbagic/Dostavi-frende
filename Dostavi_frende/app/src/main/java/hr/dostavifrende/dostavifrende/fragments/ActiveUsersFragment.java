@@ -41,6 +41,7 @@ public class ActiveUsersFragment extends Fragment {
     DatabaseReference rootReference;
     FirebaseUser user;
     FirebaseAuth auth;
+    String imePrezimeUser;
 
    @Nullable
     @Override
@@ -74,7 +75,6 @@ public class ActiveUsersFragment extends Fragment {
                         String slika = dataSnapshot.getValue().toString();
                         viewHolder.setImage(getContext(), slika);
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -93,11 +93,8 @@ public class ActiveUsersFragment extends Fragment {
                         javiSe.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Message newMessageInsertObj = new Message("Pozdrav!", user.getUid(), model.getKorisnik());
-
-
+                                Message newMessageInsertObj = new Message("Pozdrav!", user.getUid());
                                 rootReference.child("Messages").child(user.getUid().concat("_").concat(model.korisnik)).push().setValue(newMessageInsertObj);
-
                                 getFragmentManager().beginTransaction().replace(R.id.fragment_container,
                                         new ChatFragment()).commit();
                                 myDialog.cancel();
