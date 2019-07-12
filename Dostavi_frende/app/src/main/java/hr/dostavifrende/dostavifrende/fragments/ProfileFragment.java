@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,6 +40,8 @@ public class ProfileFragment extends Fragment {
     StorageReference storageReference;
     String urlSlike;
     DatabaseReference reference;
+    DatabaseReference ref;
+    Button offerBtn;
 
     @Nullable
     @Override
@@ -49,15 +52,24 @@ public class ProfileFragment extends Fragment {
         user = auth.getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference().child("User_images");
         reference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
+        ref = FirebaseDatabase.getInstance().getReference().child("Offers").child(user.getUid());
 
         imageViewProfilna = view.findViewById(R.id.imageViewProfilna);
         textViewImePrezime = view.findViewById(R.id.textViewImePrezime);
         textViewGodina = view.findViewById(R.id.textViewGodina);
         textViewEmail = view.findViewById(R.id.textViewEmail);
         textViewEmail.setText(user.getEmail());
-
+        offerBtn = view.findViewById(R.id.buttonMyOffer);
         getData();
         displayImage();
+        offerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("HELOo", "Tusam");
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new MyOffersFragment()).commit();
+            }
+        });
         return view;
     }
 
@@ -90,6 +102,11 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+    }
+    public void showMyOffers(){
+
+
+
     }
 
 
