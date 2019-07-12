@@ -37,5 +37,6 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-database:1.1.1'
     implementation project(':nfc')
     implementation project(':core')
+    implementation project(':button')
 }
 apply plugin: 'com.google.gms.google-services'
