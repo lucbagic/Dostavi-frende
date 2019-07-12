@@ -31,7 +31,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 
-import hr.dostavifrende.dostavifrende.Message;
+import hr.dostavifrende.dostavifrende.ChatMessage;
 import hr.dostavifrende.dostavifrende.Offer;
 import hr.dostavifrende.dostavifrende.R;
 
@@ -93,8 +93,8 @@ public class ActiveUsersFragment extends Fragment {
                         javiSe.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Message newMessageInsertObj = new Message("Pozdrav!", user.getUid());
-                                rootReference.child("Messages").child(user.getUid().concat("_").concat(model.korisnik)).push().setValue(newMessageInsertObj);
+                                ChatMessage newMessageInsertObj = new ChatMessage("Pozdrav!", user.getUid(), model.korisnik);
+                                rootReference.child("Messages").push().setValue(newMessageInsertObj);
                                 getFragmentManager().beginTransaction().replace(R.id.fragment_container,
                                         new ChatFragment()).commit();
                                 myDialog.cancel();

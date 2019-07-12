@@ -39,6 +39,7 @@ import hr.dostavifrende.dostavifrende.fragments.ChatFragment;
 import hr.dostavifrende.dostavifrende.fragments.OfferServiceFragment;
 import hr.dostavifrende.dostavifrende.fragments.ProfileFragment;
 import hr.dostavifrende.dostavifrende.fragments.UserUnknownFragment;
+import hr.dostavifrende.dostavifrende.fragments.UsersFragment;
 
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                             selectedFragment = isUserLoggedIn(selectedFragment);
                             break;
                         case R.id.nav_chat:
-                            selectedFragment = new ChatFragment();
+                            selectedFragment = new UsersFragment();
                             selectedFragment = isUserLoggedIn(selectedFragment);
                             break;
                         case R.id.nav_profile:

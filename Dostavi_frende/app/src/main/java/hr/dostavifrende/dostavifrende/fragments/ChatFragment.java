@@ -28,14 +28,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import hr.dostavifrende.dostavifrende.ChatMessage;
-import hr.dostavifrende.dostavifrende.Message;
 import hr.dostavifrende.dostavifrende.R;
 
 public class ChatFragment extends Fragment {
 
     ArrayList<String> myArrayList = new ArrayList<>();
 
-    ListView listaPoruka;
     EditText input;
 
     private FirebaseListAdapter<ChatMessage> adapter;
@@ -47,7 +45,8 @@ public class ChatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_conversation, container, false);
-        listaPoruka = view.findViewById(R.id.messages_view);
+        String userId = getArguments().getString("userId");
+        Log.i("AJMO", userId);
         rootReference = FirebaseDatabase.getInstance().getReference();
 
         auth = FirebaseAuth.getInstance();
@@ -60,14 +59,12 @@ public class ChatFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("Slusam", "szu");
                 rootReference
                         .child("Messages")
                         .push()
                         .setValue(new ChatMessage(input.getText().toString(),
-                               user.getDisplayName())
+                               user.getDisplayName(),"Neko")
                         );
-
                 input.setText("");
             }
         });
@@ -78,16 +75,13 @@ public class ChatFragment extends Fragment {
                 R.layout.message, rootReference.child("Messages")) {
             @Override
             protected void populateView(View v, ChatMessage model, int position) {
-                // Get references to the views of message.xml
-                TextView messageText = (TextView)v.findViewById(R.id.message_text);
-                TextView messageUser = (TextView)v.findViewById(R.id.message_user);
-                TextView messageTime = (TextView)v.findViewById(R.id.message_time);
+                TextView messageText = v.findViewById(R.id.message_text);
+                TextView messageUser = v.findViewById(R.id.message_user);
+                TextView messageTime = v.findViewById(R.id.message_time);
 
-                // Set their text
                 messageText.setText(model.getMessageText());
-                messageUser.setText(model.getMessageUser());
+                messageUser.setText(model.getMessageSender());
 
-                // Format the date before showing it
                 messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
                         model.getMessageTime()));
             }

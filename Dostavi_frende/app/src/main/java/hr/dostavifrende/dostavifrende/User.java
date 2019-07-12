@@ -2,7 +2,7 @@ package hr.dostavifrende.dostavifrende;
 
 
 public class User {
-    public String lozinka, ime, prezime;
+    public String lozinka, ime, prezime, id;
     public Integer godinaRodenja;
 
     public User(String ime, String prezime, String lozinka, Integer godinaRodenja)
@@ -13,7 +13,13 @@ public class User {
         this.godinaRodenja = godinaRodenja;
     }
 
-    User(){
+    public User(String ime, String id)
+    {
+        this.ime = ime;
+        this.id = id;
+    }
+
+    public User(){
 
     }
 }
