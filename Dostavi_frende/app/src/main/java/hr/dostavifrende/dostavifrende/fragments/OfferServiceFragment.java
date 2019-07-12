@@ -159,13 +159,13 @@ public class OfferServiceFragment extends Fragment {
         }
         else {
             final String grad = textViewGrad.getText().toString();
-            final String datum = editTextDatum.getText().toString();
+            final String datum = editTextDatum.getText().toString()+" "+Calendar.getInstance().getTimeInMillis();
             final String napomena = editTextPoruka.getText().toString();
 
             firebaseUser = auth.getCurrentUser();
             Offer newOfferInsertObj = new Offer(firebaseUser.getUid(), ime+" "+prezime, datum, napomena, grad, urlSlike);
 
-            rootReference.child("Offers").child(datum+" "+Calendar.getInstance().getTimeInMillis()).setValue(newOfferInsertObj)
+            rootReference.child("Offers").child(datum).setValue(newOfferInsertObj)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
