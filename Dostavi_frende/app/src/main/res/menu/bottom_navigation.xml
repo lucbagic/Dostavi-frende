@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<!--<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_active_users"
         android:icon="@drawable/ic_group_black_24dp"
@@ -20,5 +20,15 @@
         android:icon="@drawable/ic_person_black_24dp"
         android:title="Profil" />
 
+
+</menu>-->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/dynamic_group"
+        android:orderInCategory="0"
+        android:checkableBehavior="single">
+
+    </group>
 
 </menu>

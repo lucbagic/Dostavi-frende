@@ -30,8 +30,9 @@ import com.squareup.picasso.Picasso;
 import java.util.Calendar;
 
 import hr.dostavifrende.dostavifrende.R;
+import hr.dostavifrende.dostavifrende.core.FragmentExtension;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements FragmentExtension {
 
     TextView textViewImePrezime, textViewEmail, textViewGodina;
     ImageView imageViewProfilna;
@@ -110,5 +111,18 @@ public class ProfileFragment extends Fragment {
     }
 
 
+    @Override
+    public String getName() {
+        return "Profil";
+    }
 
+    @Override
+    public Fragment getFragment() {
+        return this;
+    }
+
+    @Override
+    public int getIcon() {
+        return R.drawable.ic_person_black_24dp;
+    }
 }

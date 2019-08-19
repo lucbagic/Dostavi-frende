@@ -1,6 +1,5 @@
 package hr.dostavifrende.dostavifrende;
 
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -10,10 +9,10 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,18 +29,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
-import java.util.Calendar;
-
+import hr.dostavifrende.dostavifrende.button.fragments.ConfirmButtonFragment;
+import hr.dostavifrende.dostavifrende.core.ConfirmListener;
 import hr.dostavifrende.dostavifrende.fragments.ActiveUsersFragment;
-import hr.dostavifrende.dostavifrende.fragments.ChatFragment;
 import hr.dostavifrende.dostavifrende.fragments.OfferServiceFragment;
 import hr.dostavifrende.dostavifrende.fragments.ProfileFragment;
 import hr.dostavifrende.dostavifrende.fragments.UserUnknownFragment;
 import hr.dostavifrende.dostavifrende.fragments.UsersFragment;
+import hr.dostavifrende.dostavifrende.nfc.fragments.NfcReaderFragment;
+import hr.dostavifrende.dostavifrende.util.BottomNavigationManager;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ConfirmListener {
     FirebaseAuth auth;
     FirebaseUser user;
     StorageReference storageReference;
@@ -55,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
     EditText editTextDatumOd, editTextDatumDo, editTextVrijemeOd, editTextVrijemeDo, editTextPoruka;
 
+    private BottomNavigationManager bnm;
+    private BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,14 +69,50 @@ public class MainActivity extends AppCompatActivity {
         rootReference = FirebaseDatabase.getInstance().getReference();
         progressDialog = new ProgressDialog(this);
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
+
+        initBottomNavigationManager();
 
         //Izmjena fragmenata
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new ActiveUsersFragment()).commit();
     }
 
+    private void initBottomNavigationManager() {
+
+        bnm = BottomNavigationManager.newInstnace();
+        bnm.setBottomNavigationDependencies(
+                this,
+                bottomNavigationView,
+                R.id.dynamic_group);
+
+        bnm.startMainModule();
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_reader, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.button_reader_menu:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ConfirmButtonFragment()).commit();
+                return true;
+            case R.id.nfc_reader_menu:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NfcReaderFragment()).commit();
+                return true;
+            default:
+                return false;
+
+        }
+    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -83,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                     android.support.v4.app.Fragment selectedFragment = null;
 
                     switch (item.getItemId()){
-                        case R.id.nav_active_users:
+                        /*case R.id.nav_active_users:
                             selectedFragment = new ActiveUsersFragment();
                             break;
                         case R.id.nav_offer:
@@ -97,10 +135,11 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.nav_profile:
                             selectedFragment = new ProfileFragment();
                             selectedFragment = isUserLoggedIn(selectedFragment);
-                            break;
+                            break;*/
+                        default: BottomNavigationManager.newInstnace().selectNavigationItem(item);
                     }
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            selectedFragment).commit();
+                    //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                      //      selectedFragment).commit();
                     return true;
                 }
             };
@@ -168,5 +207,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    @Override
+    public void potvrdiPrimitak() {
+        final Dialog myDialog = new Dialog(this);
+        myDialog.setContentView(R.layout.costumpopup);
+        TextView textViewNapomena = myDialog.findViewById(R.id.textViewNapomena);
+        textViewNapomena.setText("Bla bla car");
+        myDialog.show();
+    }
 }

@@ -34,8 +34,10 @@ import java.util.Calendar;
 import hr.dostavifrende.dostavifrende.ChatMessage;
 import hr.dostavifrende.dostavifrende.Offer;
 import hr.dostavifrende.dostavifrende.R;
+import hr.dostavifrende.dostavifrende.core.FragmentExtension;
+import hr.dostavifrende.dostavifrende.core.fragments.BaseFragment;
 
-public class ActiveUsersFragment extends Fragment {
+public class ActiveUsersFragment extends BaseFragment implements FragmentExtension {
     private View view;
     private RecyclerView activeUsersList;
     DatabaseReference rootReference;
@@ -43,20 +45,19 @@ public class ActiveUsersFragment extends Fragment {
     FirebaseAuth auth;
     String imePrezimeUser;
 
-   @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_users_active, container, false);
+    public int getLayout() {
+        return R.layout.fragment_users_active;
+    }
 
+    @Override
+    public void init(View view) {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         rootReference = FirebaseDatabase.getInstance().getReference();
         activeUsersList = view.findViewById(R.id.recyclerViewActiveUsers);
         activeUsersList.setHasFixedSize(true);
         activeUsersList.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
-        return view;
     }
 
     @Override
@@ -105,6 +106,21 @@ public class ActiveUsersFragment extends Fragment {
             }
         };
         activeUsersList.setAdapter(firebaseRecyclerAdapter);
+    }
+
+    @Override
+    public String getName() {
+        return "Aktivni";
+    }
+
+    @Override
+    public Fragment getFragment() {
+        return this;
+    }
+
+    @Override
+    public int getIcon() {
+        return R.drawable.ic_group_black_24dp;
     }
 
     public static class OfferViewHolder extends RecyclerView.ViewHolder{

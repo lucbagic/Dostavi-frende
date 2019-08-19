@@ -37,8 +37,9 @@ import hr.dostavifrende.dostavifrende.MainActivity;
 import hr.dostavifrende.dostavifrende.Offer;
 import hr.dostavifrende.dostavifrende.R;
 import hr.dostavifrende.dostavifrende.User;
+import hr.dostavifrende.dostavifrende.core.FragmentExtension;
 
-public class OfferServiceFragment extends Fragment {
+public class OfferServiceFragment extends Fragment implements FragmentExtension {
     FirebaseAuth auth;
     FirebaseUser firebaseUser;
     DatabaseReference rootReference;
@@ -173,5 +174,20 @@ public class OfferServiceFragment extends Fragment {
                         }
                     });
         }
+    }
+
+    @Override
+    public String getName() {
+        return "Ponudi";
+    }
+
+    @Override
+    public Fragment getFragment() {
+        return this;
+    }
+
+    @Override
+    public int getIcon() {
+        return R.drawable.ic_add_black_24dp;
     }
 }

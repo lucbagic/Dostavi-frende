@@ -45,8 +45,9 @@ import hr.dostavifrende.dostavifrende.ChatMessage;
 import hr.dostavifrende.dostavifrende.Offer;
 import hr.dostavifrende.dostavifrende.R;
 import hr.dostavifrende.dostavifrende.User;
+import hr.dostavifrende.dostavifrende.core.FragmentExtension;
 
-public class UsersFragment extends Fragment {
+public class UsersFragment extends Fragment implements FragmentExtension {
     private RecyclerView usersList;
     DatabaseReference rootReference;
     FirebaseUser user;
@@ -120,4 +121,18 @@ public class UsersFragment extends Fragment {
     }
 
 
+    @Override
+    public String getName() {
+        return "Razgovori";
+    }
+
+    @Override
+    public Fragment getFragment() {
+        return this;
+    }
+
+    @Override
+    public int getIcon() {
+        return R.drawable.ic_chat_black_24dp;
+    }
 }

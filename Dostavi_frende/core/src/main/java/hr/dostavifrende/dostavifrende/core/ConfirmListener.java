@@ -1,5 +1,5 @@
 package hr.dostavifrende.dostavifrende.core;
 
-public interface PotvrdaListener {
+public interface ConfirmListener {
     public void potvrdiPrimitak();
 }
