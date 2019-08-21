@@ -47,7 +47,7 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_conversation, container, false);
         userId = getArguments().getString("userId");
-
+        ListView listOfMessages = view.findViewById(R.id.list_of_messages);
         Log.i("AJMO", userId);
         rootReference = FirebaseDatabase.getInstance().getReference();
 
@@ -71,7 +71,7 @@ public class ChatFragment extends Fragment {
             }
         });
 
-        ListView listOfMessages = view.findViewById(R.id.list_of_messages);
+
 
         adapter = new FirebaseListAdapter<ChatMessage>(getActivity(),ChatMessage.class,
                 R.layout.message, rootReference.child("Messages")) {
