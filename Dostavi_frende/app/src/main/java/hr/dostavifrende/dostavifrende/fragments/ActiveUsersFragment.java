@@ -96,8 +96,12 @@ public class ActiveUsersFragment extends BaseFragment implements FragmentExtensi
                             public void onClick(View view) {
                                 ChatMessage newMessageInsertObj = new ChatMessage("Pozdrav!", user.getUid(), model.korisnik);
                                 rootReference.child("Messages").push().setValue(newMessageInsertObj);
+                                Bundle b = new Bundle();
+                                b.putString("userId", model.korisnik);
+                                ChatFragment f = new ChatFragment();
+                                f.setArguments(b);
                                 getFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                        new ChatFragment()).commit();
+                                        f).commit();
                                 myDialog.cancel();
                             }
                         });

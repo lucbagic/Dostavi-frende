@@ -40,12 +40,13 @@ public class ChatFragment extends Fragment {
     DatabaseReference rootReference;
     FirebaseAuth auth;
     FirebaseUser user;
+    String userId = "";
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_conversation, container, false);
-        String userId = getArguments().getString("userId");
+        userId = getArguments().getString("userId");
 
         Log.i("AJMO", userId);
         rootReference = FirebaseDatabase.getInstance().getReference();
@@ -64,7 +65,7 @@ public class ChatFragment extends Fragment {
                         .child("Messages")
                         .push()
                         .setValue(new ChatMessage(input.getText().toString(),
-                               user.getDisplayName(),"Neko")
+                                user.getUid(),userId)
                         );
                 input.setText("");
             }
@@ -80,11 +81,14 @@ public class ChatFragment extends Fragment {
                 TextView messageUser = v.findViewById(R.id.message_user);
                 TextView messageTime = v.findViewById(R.id.message_time);
 
-                messageText.setText(model.getMessageText());
-                messageUser.setText(model.getMessageSender());
+                if (model.getMessageReceiver().equals(user.getUid()) && model.getMessageSender().equals(userId) ||
+                        model.getMessageReceiver().equals(userId) && model.getMessageSender().equals(user.getUid())){
+                    messageText.setText(model.getMessageText());
+                    messageUser.setText(model.getMessageSender());
+                    messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
+                            model.getMessageTime()));
+                }
 
-                messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
-                        model.getMessageTime()));
             }
         };
 
@@ -94,3 +98,5 @@ public class ChatFragment extends Fragment {
     }
 
 }
+
+
