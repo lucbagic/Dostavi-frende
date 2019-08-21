@@ -56,6 +56,8 @@ public class UsersFragment extends Fragment implements FragmentExtension {
 
     ArrayList<String> korisnici = new ArrayList<>();
     ArrayList<String> listaPrikaz = new ArrayList<>();
+
+    //za slanje korisnika u novi fragment
     ArrayList<User> listaUsers = new ArrayList<>();
 
     @Nullable
@@ -67,9 +69,11 @@ public class UsersFragment extends Fragment implements FragmentExtension {
         user = auth.getCurrentUser();
         rootReference = FirebaseDatabase.getInstance().getReference();
 
+        //Finalni prikaz korisnika
         final ListView listaKorisnika = view.findViewById(R.id.list);
 
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, listaPrikaz);
+
         listaKorisnika.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -83,14 +87,27 @@ public class UsersFragment extends Fragment implements FragmentExtension {
             }
         });
 
-        Query messagesRoot = rootReference.child("Messages").orderByChild("messageSender").equalTo(user.getUid());
+        Query messagesRoot = rootReference.child("Messages");
 
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                korisnici.clear();
+                listaPrikaz.clear();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String primatelj = ds.child("messageReceiver").getValue().toString();
-                    korisnici.add(primatelj);
+                    ChatMessage message = ds.getValue(ChatMessage.class);
+                  if (message.getMessageReceiver().equals(user.getUid()) || message.getMessageSender().equals(user.getUid())){
+                        String primatelj = message.getMessageReceiver();
+                        if (!korisnici.contains(primatelj)){
+                            korisnici.add(primatelj);
+                        }
+                      String posiljatelj = message.getMessageSender();
+                      if (!korisnici.contains(posiljatelj)){
+                          korisnici.add(posiljatelj);
+                      }
+                      korisnici.remove(user.getUid());
+                  }
+
                 }
                 for (int i = 0; i < korisnici.size(); i++) {
                     final DatabaseReference imeKorisnika = rootReference.child("Users").child(korisnici.get(i));
@@ -100,6 +117,7 @@ public class UsersFragment extends Fragment implements FragmentExtension {
                             String ime = dataSnapshot.child("ime").getValue().toString();
                             listaPrikaz.add(ime);
                             listaUsers.add(new User(ime, dataSnapshot.getKey()));
+
                             arrayAdapter.notifyDataSetChanged();
                         }
                         @Override

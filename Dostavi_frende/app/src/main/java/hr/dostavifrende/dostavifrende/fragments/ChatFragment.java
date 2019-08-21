@@ -46,6 +46,7 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_conversation, container, false);
         String userId = getArguments().getString("userId");
+
         Log.i("AJMO", userId);
         rootReference = FirebaseDatabase.getInstance().getReference();
 
