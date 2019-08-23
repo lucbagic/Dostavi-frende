@@ -1,7 +1,7 @@
 package hr.dostavifrende.dostavifrende;
 
 public class Deal {
-    public String korisnik, status;
+    private String korisnik, status;
 
     public Deal(String korisnik, String status)
     {

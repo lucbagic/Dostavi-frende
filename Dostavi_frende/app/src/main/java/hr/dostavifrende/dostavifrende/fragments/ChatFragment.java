@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -79,7 +81,31 @@ public class ChatFragment extends Fragment {
         btnDogovoreno.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rootReference.child("Deals").child(user.getUid()).push().setValue(new Deal(userId, "aktivno"));
+                Query reference;
+                reference = rootReference.child("Deals").child(user.getUid()).orderByChild("status").equalTo("aktivno");
+                reference.addValueEventListener(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (!dataSnapshot.exists()){
+                            rootReference.child("Deals").child(user.getUid()).push().setValue(new Deal(userId, "aktivno"));
+                        }
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                            Deal deal = ds.getValue(Deal.class);
+                            if (!deal.getStatus().equals("aktivno")){
+                                rootReference.child("Deals").child(user.getUid()).push().setValue(new Deal(userId, "aktivno"));
+                            }else {
+                                Toast.makeText(getContext(),"Dogovor već postoji!",Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
 
