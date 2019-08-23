@@ -98,7 +98,7 @@
             android:background="@color/colorPrimary"
             android:gravity="center_horizontal"
             android:padding="15dp"
-            android:text="Moje dogovori"
+            android:text="Moji dogovori"
             android:textColor="#ffffff"
             android:textSize="15sp" />
     </LinearLayout>

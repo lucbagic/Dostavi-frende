@@ -1,12 +1,16 @@
 package hr.dostavifrende.dostavifrende;
 
+import java.util.Date;
+
 public class Deal {
     private String korisnik, status;
+    private long dealTime;
 
     public Deal(String korisnik, String status)
     {
         this.korisnik = korisnik;
         this.status = status;
+        dealTime = new Date().getTime();
     }
 
     public Deal(){
@@ -27,5 +31,13 @@ public class Deal {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public long getDealTime() {
+        return dealTime;
+    }
+
+    public void setDealTime(long dealTime) {
+        this.dealTime = dealTime;
     }
 }

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +55,7 @@ public class MyDealsFragment extends Fragment {
             protected void populateViewHolder(final DealViewHolder viewHolder, final Deal model, final int position) {
                 viewHolder.setKorisnik(model.getKorisnik());
                 viewHolder.setStatus(model.getStatus());
-
+                viewHolder.setDatum(DateFormat.format("dd-MM-yyyy (HH:mm:ss)", model.getDealTime()));
 
                 viewHolder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -101,9 +102,12 @@ public class MyDealsFragment extends Fragment {
         }
 
         public void setStatus(String status) {
-            TextView textViewDatum = view.findViewById(R.id.textViewStatus);
-            textViewDatum.setText(status);
-
+            TextView textViewStatus = view.findViewById(R.id.textViewStatus);
+            textViewStatus.setText(status);
+        }
+        public void setDatum(CharSequence datum) {
+            TextView textViewDatum = view.findViewById(R.id.textViewDatum);
+            textViewDatum.setText(datum);
         }
     }
 }

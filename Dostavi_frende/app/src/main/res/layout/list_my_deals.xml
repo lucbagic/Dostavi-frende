@@ -26,6 +26,13 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_below="@id/textViewKorisnik" />
+            <TextView
+                android:id="@+id/textViewDatum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/textViewStatus" />
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
