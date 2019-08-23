@@ -27,11 +27,13 @@ public class BottomNavigationManager {
     private int dynamicGroupId;
 
     private BottomNavigationManager() {
+
         bottomNavigationItems = new ArrayList<>();
         bottomNavigationItems.add(new ActiveUsersFragment());
         bottomNavigationItems.add(new OfferServiceFragment());
         bottomNavigationItems.add(new UsersFragment());
         bottomNavigationItems.add(new ProfileFragment());
+
     }
 
     public static BottomNavigationManager newInstnace() {
@@ -58,6 +60,7 @@ public class BottomNavigationManager {
             menuItem.setChecked(true);
 
             FragmentExtension selectedItem = bottomNavigationItems.get(menuItem.getItemId());
+
             startModule(selectedItem);
         }
     }
@@ -65,6 +68,7 @@ public class BottomNavigationManager {
     private void startModule(FragmentExtension module) {
         FragmentManager mFragmentManager = activity.getSupportFragmentManager();
         mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
         mFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, module.getFragment())
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -72,6 +76,7 @@ public class BottomNavigationManager {
     }
 
     public void startMainModule() {
+
         FragmentExtension mainModule = bottomNavigationItems != null ? bottomNavigationItems.get(0) : null;
         if (mainModule != null)
             startModule(mainModule);

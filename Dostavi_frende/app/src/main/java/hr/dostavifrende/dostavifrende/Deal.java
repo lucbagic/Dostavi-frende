@@ -12,4 +12,20 @@ public class Deal {
     public Deal(){
 
     }
+
+    public String getKorisnik() {
+        return korisnik;
+    }
+
+    public void setKorisnik(String korisnik) {
+        this.korisnik = korisnik;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

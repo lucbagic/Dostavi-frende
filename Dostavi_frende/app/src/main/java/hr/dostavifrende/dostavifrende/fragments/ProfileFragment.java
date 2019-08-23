@@ -43,6 +43,7 @@ public class ProfileFragment extends Fragment implements FragmentExtension {
     DatabaseReference reference;
     DatabaseReference ref;
     Button offerBtn;
+    Button dealsBtn;
 
     @Nullable
     @Override
@@ -61,6 +62,7 @@ public class ProfileFragment extends Fragment implements FragmentExtension {
         textViewEmail = view.findViewById(R.id.textViewEmail);
         textViewEmail.setText(user.getEmail());
         offerBtn = view.findViewById(R.id.buttonMyOffer);
+        dealsBtn = view.findViewById(R.id.buttonMyDeals);
         getData();
         displayImage();
         offerBtn.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +70,13 @@ public class ProfileFragment extends Fragment implements FragmentExtension {
             public void onClick(View view) {
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new MyOffersFragment()).commit();
+            }
+        });
+        dealsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new MyDealsFragment()).commit();
             }
         });
         return view;
