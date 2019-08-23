@@ -1,7 +1,9 @@
 package hr.dostavifrende.dostavifrende;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -88,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements ConfirmListener {
                 this,
                 bottomNavigationView,
                 R.id.dynamic_group);
-
         bnm.startMainModule();
 
     }
@@ -139,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements ConfirmListener {
                             selectedFragment = isUserLoggedIn(selectedFragment);
                             break;*/
                         default: BottomNavigationManager.newInstnace().selectNavigationItem(item);
+
                     }
                     //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                       //      selectedFragment).commit();
@@ -211,10 +213,21 @@ public class MainActivity extends AppCompatActivity implements ConfirmListener {
 
     @Override
     public void potvrdiPrimitak() {
-        final Dialog myDialog = new Dialog(this);
+        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+        alertDialog.setTitle("Potvrda");
+        alertDialog.setMessage("Usluga je uspjesno dostavljena");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+
+        /*final Dialog myDialog = new Dialog(this);
         myDialog.setContentView(R.layout.costumpopup);
         TextView textViewNapomena = myDialog.findViewById(R.id.textViewNapomena);
         textViewNapomena.setText("Bla bla car");
-        myDialog.show();
+        myDialog.show();*/
     }
 }
