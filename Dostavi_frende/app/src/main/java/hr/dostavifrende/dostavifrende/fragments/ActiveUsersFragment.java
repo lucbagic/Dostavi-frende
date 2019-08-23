@@ -6,6 +6,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +29,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
@@ -58,12 +62,15 @@ public class ActiveUsersFragment extends BaseFragment implements FragmentExtensi
         activeUsersList = view.findViewById(R.id.recyclerViewActiveUsers);
         activeUsersList.setHasFixedSize(true);
         activeUsersList.setLayoutManager(new LinearLayoutManager(getContext()));
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseRecyclerAdapter<Offer, OfferViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Offer, OfferViewHolder>
+
+
+        final FirebaseRecyclerAdapter<Offer, OfferViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Offer, OfferViewHolder>
                 (Offer.class, R.layout.list_active_users, OfferViewHolder.class, rootReference.child("Offers")) {
             @Override
             protected void populateViewHolder(final OfferViewHolder viewHolder, final Offer model, int position) {
@@ -75,6 +82,7 @@ public class ActiveUsersFragment extends BaseFragment implements FragmentExtensi
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         String slika = dataSnapshot.getValue().toString();
                         viewHolder.setImage(getContext(), slika);
+
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -109,6 +117,7 @@ public class ActiveUsersFragment extends BaseFragment implements FragmentExtensi
                 });
             }
         };
+
         activeUsersList.setAdapter(firebaseRecyclerAdapter);
     }
 

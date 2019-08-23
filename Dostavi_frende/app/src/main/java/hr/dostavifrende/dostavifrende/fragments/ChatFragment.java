@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import hr.dostavifrende.dostavifrende.ChatMessage;
+import hr.dostavifrende.dostavifrende.Deal;
 import hr.dostavifrende.dostavifrende.R;
 
 public class ChatFragment extends Fragment {
@@ -41,12 +43,15 @@ public class ChatFragment extends Fragment {
     FirebaseAuth auth;
     FirebaseUser user;
     String userId = "";
+    Button btnDogovoreno;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_conversation, container, false);
         userId = getArguments().getString("userId");
+        btnDogovoreno = view.findViewById(R.id.buttonDogovoreno);
+
         ListView listOfMessages = view.findViewById(R.id.list_of_messages);
         Log.i("AJMO", userId);
         rootReference = FirebaseDatabase.getInstance().getReference();
@@ -71,7 +76,12 @@ public class ChatFragment extends Fragment {
             }
         });
 
-
+        btnDogovoreno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rootReference.child("Deals").child(user.getUid()).push().setValue(new Deal(userId, "aktivno"));
+            }
+        });
 
         adapter = new FirebaseListAdapter<ChatMessage>(getActivity(),ChatMessage.class,
                 R.layout.message, rootReference.child("Messages")) {

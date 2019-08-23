@@ -66,7 +66,6 @@ public class ProfileFragment extends Fragment implements FragmentExtension {
         offerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("HELOo", "Tusam");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new MyOffersFragment()).commit();
             }
