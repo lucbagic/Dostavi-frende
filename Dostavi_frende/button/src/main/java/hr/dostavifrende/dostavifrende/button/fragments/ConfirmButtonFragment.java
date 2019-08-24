@@ -35,6 +35,7 @@ public class ConfirmButtonFragment extends BaseFragment implements View.OnClickL
         user = auth.getCurrentUser();
         rootReference = FirebaseDatabase.getInstance().getReference();
         Log.i("LUCKA", user.getUid());
+        
         confirm_button.setOnClickListener(this);
     }
 

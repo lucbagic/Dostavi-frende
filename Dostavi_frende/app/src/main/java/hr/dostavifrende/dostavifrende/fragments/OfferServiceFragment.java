@@ -75,64 +75,69 @@ public class OfferServiceFragment extends Fragment implements FragmentExtension 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         rootReference = FirebaseDatabase.getInstance().getReference();
-        reference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
+        if (user == null){
+            UserUnknownFragment userUnknownFragment = new UserUnknownFragment();
+            getFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    userUnknownFragment).commit();
+        }else {
+            reference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
+
+            editTextDatum = view.findViewById(R.id.editTextDatum);
+            editTextPoruka = view.findViewById(R.id.editTextPoruka);
+
+            textViewGrad = view.findViewById(R.id.textViewGrad);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, GRADOVI);
+            textViewGrad.setAdapter(adapter);
 
 
-        editTextDatum = view.findViewById(R.id.editTextDatum);
-        editTextPoruka = view.findViewById(R.id.editTextPoruka);
+            final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
-        textViewGrad = view.findViewById(R.id.textViewGrad);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, GRADOVI);
-        textViewGrad.setAdapter(adapter);
-
-
-        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel();
-            }
-
-        };
-
-        editTextDatum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new DatePickerDialog(getContext(), date, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
-
-        offerService = view.findViewById(R.id.buttonPonudi);
-        offerService.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                offerService();
-            }
-        });
-
-        reference.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ime = dataSnapshot.child("ime").getValue().toString();
-                prezime = dataSnapshot.child("prezime").getValue().toString();
-                if (dataSnapshot.child("urlSlike").getValue() != null){
-                    urlSlike = dataSnapshot.child("urlSlike").getValue().toString();
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                      int dayOfMonth) {
+                    myCalendar.set(Calendar.YEAR, year);
+                    myCalendar.set(Calendar.MONTH, monthOfYear);
+                    myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    updateLabel();
                 }
 
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            };
 
-            }
-        });
+            editTextDatum.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new DatePickerDialog(getContext(), date, myCalendar
+                            .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                            myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                }
+            });
 
+            offerService = view.findViewById(R.id.buttonPonudi);
+            offerService.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    offerService();
+                }
+            });
+
+            reference.addValueEventListener(new ValueEventListener() {
+
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    ime = dataSnapshot.child("ime").getValue().toString();
+                    prezime = dataSnapshot.child("prezime").getValue().toString();
+                    if (dataSnapshot.child("urlSlike").getValue() != null) {
+                        urlSlike = dataSnapshot.child("urlSlike").getValue().toString();
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
         return view;
     }
 

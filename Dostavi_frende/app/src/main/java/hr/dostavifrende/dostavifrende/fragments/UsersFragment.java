@@ -69,72 +69,81 @@ public class UsersFragment extends Fragment implements FragmentExtension {
         user = auth.getCurrentUser();
         rootReference = FirebaseDatabase.getInstance().getReference();
 
-        //Finalni prikaz korisnika
-        final ListView listaKorisnika = view.findViewById(R.id.list);
+        if (user == null){
+            UserUnknownFragment userUnknownFragment = new UserUnknownFragment();
+            getFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    userUnknownFragment).commit();
+        }else {
 
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, listaPrikaz);
+            //Finalni prikaz korisnika
+            final ListView listaKorisnika = view.findViewById(R.id.list);
 
-        listaKorisnika.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String userId = listaUsers.get(i).id;
-                Bundle b = new Bundle();
-                b.putString("userId", userId);
-                ChatFragment f = new ChatFragment();
-                f.setArguments(b);
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                       f).commit();
-            }
-        });
+            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, listaPrikaz);
 
-        Query messagesRoot = rootReference.child("Messages");
-
-        ValueEventListener eventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                korisnici.clear();
-                listaPrikaz.clear();
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    ChatMessage message = ds.getValue(ChatMessage.class);
-                  if (message.getMessageReceiver().equals(user.getUid()) || message.getMessageSender().equals(user.getUid())){
-                        String primatelj = message.getMessageReceiver();
-                        if (!korisnici.contains(primatelj)){
-                            korisnici.add(primatelj);
-                        }
-                      String posiljatelj = message.getMessageSender();
-                      if (!korisnici.contains(posiljatelj)){
-                          korisnici.add(posiljatelj);
-                      }
-                      korisnici.remove(user.getUid());
-                  }
-
+            listaKorisnika.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    String userId = listaUsers.get(i).id;
+                    Bundle b = new Bundle();
+                    b.putString("userId", userId);
+                    ChatFragment f = new ChatFragment();
+                    f.setArguments(b);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            f).commit();
                 }
-                for (int i = 0; i < korisnici.size(); i++) {
-                    final DatabaseReference imeKorisnika = rootReference.child("Users").child(korisnici.get(i));
-                    imeKorisnika.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            String ime = dataSnapshot.child("ime").getValue().toString();
-                            listaPrikaz.add(ime);
-                            listaUsers.add(new User(ime, dataSnapshot.getKey()));
+            });
 
-                            arrayAdapter.notifyDataSetChanged();
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
+            Query messagesRoot = rootReference.child("Messages");
 
+            ValueEventListener eventListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    korisnici.clear();
+                    listaPrikaz.clear();
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        ChatMessage message = ds.getValue(ChatMessage.class);
+                        if (message.getMessageReceiver().equals(user.getUid()) || message.getMessageSender().equals(user.getUid())) {
+                            String primatelj = message.getMessageReceiver();
+                            if (!korisnici.contains(primatelj)) {
+                                korisnici.add(primatelj);
+                            }
+                            String posiljatelj = message.getMessageSender();
+                            if (!korisnici.contains(posiljatelj)) {
+                                korisnici.add(posiljatelj);
+                            }
+                            korisnici.remove(user.getUid());
                         }
-                    });
+
+                    }
+                    for (int i = 0; i < korisnici.size(); i++) {
+                        final DatabaseReference imeKorisnika = rootReference.child("Users").child(korisnici.get(i));
+                        imeKorisnika.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                String ime = dataSnapshot.child("ime").getValue().toString();
+                                listaPrikaz.add(ime);
+                                listaUsers.add(new User(ime, dataSnapshot.getKey()));
+
+                                arrayAdapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                    listaKorisnika.setAdapter(arrayAdapter);
                 }
-                listaKorisnika.setAdapter(arrayAdapter);
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            };
 
-        messagesRoot.addListenerForSingleValueEvent(eventListener);
+            messagesRoot.addListenerForSingleValueEvent(eventListener);
+
+        }
         return view;
     }
 

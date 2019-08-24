@@ -52,33 +52,39 @@ public class ProfileFragment extends Fragment implements FragmentExtension {
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-        storageReference = FirebaseStorage.getInstance().getReference().child("User_images");
-        reference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
-        ref = FirebaseDatabase.getInstance().getReference().child("Offers").child(user.getUid());
+        if (user == null){
+            UserUnknownFragment userUnknownFragment = new UserUnknownFragment();
+            getFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    userUnknownFragment).commit();
+        }else {
+            storageReference = FirebaseStorage.getInstance().getReference().child("User_images");
+            reference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
+            ref = FirebaseDatabase.getInstance().getReference().child("Offers").child(user.getUid());
 
-        imageViewProfilna = view.findViewById(R.id.imageViewProfilna);
-        textViewImePrezime = view.findViewById(R.id.textViewImePrezime);
-        textViewGodina = view.findViewById(R.id.textViewGodina);
-        textViewEmail = view.findViewById(R.id.textViewEmail);
-        textViewEmail.setText(user.getEmail());
-        offerBtn = view.findViewById(R.id.buttonMyOffer);
-        dealsBtn = view.findViewById(R.id.buttonMyDeals);
-        getData();
-        displayImage();
-        offerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new MyOffersFragment()).commit();
-            }
-        });
-        dealsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new MyDealsFragment()).commit();
-            }
-        });
+            imageViewProfilna = view.findViewById(R.id.imageViewProfilna);
+            textViewImePrezime = view.findViewById(R.id.textViewImePrezime);
+            textViewGodina = view.findViewById(R.id.textViewGodina);
+            textViewEmail = view.findViewById(R.id.textViewEmail);
+            textViewEmail.setText(user.getEmail());
+            offerBtn = view.findViewById(R.id.buttonMyOffer);
+            dealsBtn = view.findViewById(R.id.buttonMyDeals);
+            getData();
+            displayImage();
+            offerBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            new MyOffersFragment()).commit();
+                }
+            });
+            dealsBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            new MyDealsFragment()).commit();
+                }
+            });
+        }
         return view;
     }
 
