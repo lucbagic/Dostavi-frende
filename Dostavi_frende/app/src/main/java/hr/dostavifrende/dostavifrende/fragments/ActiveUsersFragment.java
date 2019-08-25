@@ -50,6 +50,8 @@ public class ActiveUsersFragment extends BaseFragment implements FragmentExtensi
     String imePrezimeUser;
     FloatingActionButton fabGrad;
     AutoCompleteTextView textViewGrad;
+    TextView textViewThumbsUp;
+    TextView textViewThumbsDown;
 
     static final String[] GRADOVI = new String[]{
             "Bakar","Beli Manastir","Belišće","Benkovac","Biograd na Moru","Bjelovar","Buje","Buzet","Cres","Crikvenica","Čabar","Čakovec",
@@ -80,6 +82,8 @@ public class ActiveUsersFragment extends BaseFragment implements FragmentExtensi
         activeUsersList.setLayoutManager(new LinearLayoutManager(getContext()));
         fabGrad = view.findViewById(R.id.fabGrad);
         textViewGrad = view.findViewById(R.id.textViewGradPretraga);
+        textViewThumbsUp = view.findViewById(R.id.textThumbsUp);
+        textViewThumbsDown = view.findViewById(R.id.textThumbsDown);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, GRADOVI);
         textViewGrad.setAdapter(adapter);
     }
@@ -131,6 +135,18 @@ public class ActiveUsersFragment extends BaseFragment implements FragmentExtensi
             ImageView imageViewSlika = view.findViewById(R.id.imageViewActiveUser);
             Picasso.with(ctx).load(image).into(imageViewSlika);
         }
+        public void setRating(String rating){
+            TextView textViewRating = view.findViewById(R.id.textViewRating);
+            textViewRating.setText(rating);
+        }
+        public void setThumbsUp(String thumbsUp){
+            TextView textViewRating = view.findViewById(R.id.textThumbsUp);
+            textViewRating.setText(thumbsUp);
+        }
+        public void setThumbsDown(String thumbsDown){
+            TextView textViewRating = view.findViewById(R.id.textThumbsDown);
+            textViewRating.setText(thumbsDown);
+        }
     }
 
     public void pretraziGrad(Query pretraziGrad){
@@ -141,13 +157,18 @@ public class ActiveUsersFragment extends BaseFragment implements FragmentExtensi
             protected void populateViewHolder(final OfferViewHolder viewHolder, final Offer model, int position) {
                 viewHolder.setKorisnik(model.getImePrezime());
 
-                DatabaseReference slikaKorisnika = rootReference.child("Users").child(model.korisnik.trim()).child("urlSlike");
+                DatabaseReference slikaKorisnika = rootReference.child("Users").child(model.korisnik.trim());
                 slikaKorisnika.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String slika = dataSnapshot.getValue().toString();
+                        String slika = dataSnapshot.child("urlSlike").getValue().toString();
                         viewHolder.setImage(getContext(), slika);
+                        if (dataSnapshot.child("thumbsDown").getValue() != null){
 
+                            viewHolder.setThumbsUp(dataSnapshot.child("thumbsUp").getValue().toString());
+                            viewHolder.setThumbsDown(dataSnapshot.child("thumbsDown").getValue().toString());
+                        }
+                        viewHolder.setRating(dataSnapshot.child("ocjena").getValue().toString());
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -182,7 +203,6 @@ public class ActiveUsersFragment extends BaseFragment implements FragmentExtensi
                 });
             }
         };
-
         activeUsersList.setAdapter(firebaseRecyclerAdapter);
     }
 

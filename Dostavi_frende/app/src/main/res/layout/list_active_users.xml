@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -24,9 +25,10 @@
                 android:id="@+id/textViewImePrezime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:textSize="13dp"
-                android:layout_toRightOf="@id/imageViewActiveUser" />
+                android:layout_alignTop="@+id/imageViewActiveUser"
+                android:layout_marginLeft="14dp"
+                android:layout_toRightOf="@id/imageViewActiveUser"
+                android:textSize="13dp" />
 
 
             <TextView
@@ -34,12 +36,48 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textViewImePrezime"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginLeft="13dp"
+                android:layout_marginTop="7dp"
                 android:layout_toRightOf="@id/imageViewActiveUser"
                 android:background="@color/colorPrimary"
-                android:text="4.7"
                 android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewRating"
+                android:layout_toRightOf="@id/imageViewActiveUser"
+                android:contentDescription="thumbsUp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_thumb_up_black_24dp" />
+
+            <TextView
+                android:id="@+id/textThumbsUp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageView"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/imageViewActiveUser" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewRating"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@id/imageView"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_thumb_down_black_24dp" />
+
+
+            <TextView
+                android:id="@+id/textThumbsDown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageView2"
+                android:layout_marginLeft="45dp"
+                android:layout_toRightOf="@id/textThumbsUp" />
 
         </RelativeLayout>
 

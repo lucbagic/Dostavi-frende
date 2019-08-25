@@ -45,7 +45,6 @@ public class StarsRatingFragment extends BaseFragment implements View.OnClickLis
         user = auth.getCurrentUser();
         rootReference = FirebaseDatabase.getInstance().getReference();
         ratingBar = view.findViewById(R.id.ratingBar);
-
         confirm_button.setOnClickListener(this);
     }
 
@@ -97,7 +96,7 @@ public class StarsRatingFragment extends BaseFragment implements View.OnClickLis
                    referenca.child("brojac").setValue(brojac+1);
 
                    double ocjena = (double) (ratingBar.getRating()+zbroj)/(brojac+1);
-                   referenca.child("ocjena").setValue(ocjena);
+                   referenca.child("ocjena").setValue(String.format("%.2f", ocjena));
 
             }
             @Override

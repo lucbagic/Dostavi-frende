@@ -4,7 +4,7 @@ package hr.dostavifrende.dostavifrende.core.fragments;
 public class User {
     public String lozinka, ime, prezime, id;
     public Integer godinaRodenja;
-    int ocjena, brojac, zbroj;
+    int ocjena, brojac, zbroj, thumbsUp, thumbsDown;
 
     public User(String ime, String prezime, String lozinka, Integer godinaRodenja)
     {
@@ -86,5 +86,21 @@ public class User {
 
     public void setZbroj(int zbroj) {
         this.zbroj = zbroj;
+    }
+
+    public int getThumbsUp() {
+        return thumbsUp;
+    }
+
+    public void setThumbsUp(int thumbsUp) {
+        this.thumbsUp = thumbsUp;
+    }
+
+    public int getThumbsDown() {
+        return thumbsDown;
+    }
+
+    public void setThumbsDown(int thumbsDown) {
+        this.thumbsDown = thumbsDown;
     }
 }
