@@ -8,7 +8,7 @@ import hr.dostavifrende.dostavifrende.core.ConfirmListener;
 import hr.dostavifrende.dostavifrende.core.fragments.BaseFragment;
 import hr.dostavifrende.dostavifrende.nfc.R;
 
-public class NfcReaderFragment extends BaseFragment implements View.OnClickListener {
+public class ThumbsRatingFragment extends BaseFragment implements View.OnClickListener {
 
     private ConfirmListener confirmListener;
 

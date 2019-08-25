@@ -1,4 +1,4 @@
-package hr.dostavifrende.dostavifrende;
+package hr.dostavifrende.dostavifrende.core.fragments;
 
 import java.util.Date;
 

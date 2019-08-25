@@ -1,50 +1,32 @@
 package hr.dostavifrende.dostavifrende.fragments;
 
-import android.app.Dialog;
-import android.content.Context;
-import android.media.Image;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 import hr.dostavifrende.dostavifrende.ChatMessage;
-import hr.dostavifrende.dostavifrende.Offer;
 import hr.dostavifrende.dostavifrende.R;
-import hr.dostavifrende.dostavifrende.User;
+import hr.dostavifrende.dostavifrende.core.fragments.User;
 import hr.dostavifrende.dostavifrende.core.FragmentExtension;
 
 public class UsersFragment extends Fragment implements FragmentExtension {

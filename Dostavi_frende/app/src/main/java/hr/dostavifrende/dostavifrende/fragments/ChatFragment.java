@@ -1,6 +1,5 @@
 package hr.dostavifrende.dostavifrende.fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -31,9 +29,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import hr.dostavifrende.dostavifrende.ChatMessage;
-import hr.dostavifrende.dostavifrende.Deal;
+import hr.dostavifrende.dostavifrende.core.fragments.Deal;
 import hr.dostavifrende.dostavifrende.R;
-import hr.dostavifrende.dostavifrende.button.fragments.ConfirmButtonFragment;
+import hr.dostavifrende.dostavifrende.button.fragments.StarsRatingFragment;
 
 public class ChatFragment extends Fragment {
 
@@ -84,7 +82,7 @@ public class ChatFragment extends Fragment {
             public void onClick(View view) {
                 Query reference;
                 reference = rootReference.child("Deals").child(user.getUid()).orderByChild("status").equalTo("aktivno");
-                reference.addValueEventListener(new ValueEventListener() {
+                reference.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -97,7 +95,6 @@ public class ChatFragment extends Fragment {
                                 rootReference.child("Deals").child(user.getUid()).push().setValue(new Deal(userId, "aktivno"));
                             }else {
                                 Toast.makeText(getContext(),"Dogovor već postoji!",Toast.LENGTH_SHORT).show();
-                                ConfirmButtonFragment confirmButtonFragment = new ConfirmButtonFragment();
                             }
 
                         }

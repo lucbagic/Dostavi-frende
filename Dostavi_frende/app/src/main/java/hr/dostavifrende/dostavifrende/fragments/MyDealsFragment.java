@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import hr.dostavifrende.dostavifrende.Deal;
+import hr.dostavifrende.dostavifrende.core.fragments.Deal;
 import hr.dostavifrende.dostavifrende.R;
 
 public class MyDealsFragment extends Fragment {

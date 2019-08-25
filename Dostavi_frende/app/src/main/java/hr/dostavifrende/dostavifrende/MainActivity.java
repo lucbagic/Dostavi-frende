@@ -1,7 +1,6 @@
 package hr.dostavifrende.dostavifrende;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -33,14 +31,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import hr.dostavifrende.dostavifrende.button.fragments.ConfirmButtonFragment;
+import hr.dostavifrende.dostavifrende.button.fragments.StarsRatingFragment;
 import hr.dostavifrende.dostavifrende.core.ConfirmListener;
 import hr.dostavifrende.dostavifrende.fragments.ActiveUsersFragment;
-import hr.dostavifrende.dostavifrende.fragments.OfferServiceFragment;
-import hr.dostavifrende.dostavifrende.fragments.ProfileFragment;
 import hr.dostavifrende.dostavifrende.fragments.UserUnknownFragment;
-import hr.dostavifrende.dostavifrende.fragments.UsersFragment;
-import hr.dostavifrende.dostavifrende.nfc.fragments.NfcReaderFragment;
+import hr.dostavifrende.dostavifrende.nfc.fragments.ThumbsRatingFragment;
 import hr.dostavifrende.dostavifrende.util.BottomNavigationManager;
 
 public class MainActivity extends AppCompatActivity implements ConfirmListener {
@@ -106,10 +101,10 @@ public class MainActivity extends AppCompatActivity implements ConfirmListener {
         switch (item.getItemId()) {
 
             case R.id.button_reader_menu:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ConfirmButtonFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new StarsRatingFragment()).commit();
                 return true;
             case R.id.nfc_reader_menu:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NfcReaderFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ThumbsRatingFragment()).commit();
                 return true;
             default:
                 return false;
