@@ -42,7 +42,6 @@ public class MyDealsFragment extends Fragment {
         myDealList.setHasFixedSize(true);
         myDealList.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
         return view;
     }
 

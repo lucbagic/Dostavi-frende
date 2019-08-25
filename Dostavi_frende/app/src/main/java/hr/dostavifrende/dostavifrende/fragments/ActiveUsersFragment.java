@@ -48,6 +48,22 @@ public class ActiveUsersFragment extends BaseFragment implements FragmentExtensi
     FirebaseUser user;
     FirebaseAuth auth;
     String imePrezimeUser;
+    FloatingActionButton fabGrad;
+    AutoCompleteTextView textViewGrad;
+
+    static final String[] GRADOVI = new String[]{
+            "Bakar","Beli Manastir","Belišće","Benkovac","Biograd na Moru","Bjelovar","Buje","Buzet","Cres","Crikvenica","Čabar","Čakovec",
+            "Čazma","Daruvar","Delnice","Donja Stubica","Donji Miholjac","Drniš","Dubrovnik","Duga Resa","Dugo Selo","Đakovo","Đurđevac",
+            "Garešnica","Glina","Gospić","Grubišno Polje","Hrvatska Kostajnica","Hvar","Ilok","Imotski","Ivanec","Ivanić-Grad","Jastrebarsko",
+            "Karlovac","Kastav","Kaštela","Klanjec","Knin","Komiža","Koprivnica","Korčula","Kraljevica","Krapina","Križevci","Krk","Kutina",
+            "Kutjevo","Labin","Lepoglava","Lipik","Ludbreg","Makarska","Mali Lošinj","Metković","Mursko Središće","Našice","Nin","Nova Gradiška",
+            "Novalja","Novi Marof","Novi Vinodolski","Novigrad","Novska","Obrovac","Ogulin","Omiš","Opatija","Opuzen","Orahovica","Oroslavje",
+            "Osijek","Otočac","Otok","Ozalj","Pag","Pakrac","Pazin","Petrinja","Pleternica","Ploče","Poreč","Požega","Pregrada","Prelog","Pula",
+            "Rab","Rijeka","Rovinj","Samobor","Senj","Sinj","Sisak","Skradin","Slatina","Slavonski Brod","Slunj","Solin","Split","Stari Grad",
+            "Supetar","Sveta Nedelja","Sveti Ivan Zelina","Šibenik","Trilj","Trogir","Umag","Valpovo","Varaždin","Varaždinske Toplice",
+            "Velika Gorica","Vinkovci","Virovitica","Vis","Vodice","Vodnjan","Vrbovec","Vrbovsko","Vrgorac","Vrlika","Vukovar","Zabok","Zadar",
+            "Zagreb","Zaprešić","Zlatar","Županja"
+    };
 
     @Override
     public int getLayout() {
@@ -62,16 +78,65 @@ public class ActiveUsersFragment extends BaseFragment implements FragmentExtensi
         activeUsersList = view.findViewById(R.id.recyclerViewActiveUsers);
         activeUsersList.setHasFixedSize(true);
         activeUsersList.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        fabGrad = view.findViewById(R.id.fabGrad);
+        textViewGrad = view.findViewById(R.id.textViewGradPretraga);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, GRADOVI);
+        textViewGrad.setAdapter(adapter);
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
+        pretraziGrad(rootReference.child("Offers"));
+
+        fabGrad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pretraziGrad(rootReference.child("Offers").orderByChild("grad").equalTo(textViewGrad.getText().toString()));
+            }
+        });
+    }
+
+    @Override
+    public String getName() {
+        return "Aktivni";
+    }
+
+    @Override
+    public Fragment getFragment() {
+        return this;
+    }
+
+    @Override
+    public int getIcon() {
+        return R.drawable.ic_group_black_24dp;
+    }
+
+    public static class OfferViewHolder extends RecyclerView.ViewHolder{
+        View view;
+        public OfferViewHolder(View itemView){
+            super(itemView);
+            view = itemView;
+        }
+        public void setKorisnik(String imePrezime){
+            TextView textViewImePrezime = view.findViewById(R.id.textViewImePrezime);
+            textViewImePrezime.setText(imePrezime);
+        }
+       public void setNapomena(String napomena){
+           TextView textViewNapomena = view.findViewById(R.id.textViewNapomena);
+           textViewNapomena.setText(napomena);
+        }
+        public void setImage(Context ctx, String image){
+            ImageView imageViewSlika = view.findViewById(R.id.imageViewActiveUser);
+            Picasso.with(ctx).load(image).into(imageViewSlika);
+        }
+    }
+
+    public void pretraziGrad(Query pretraziGrad){
 
         final FirebaseRecyclerAdapter<Offer, OfferViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Offer, OfferViewHolder>
-                (Offer.class, R.layout.list_active_users, OfferViewHolder.class, rootReference.child("Offers")) {
+                (Offer.class, R.layout.list_active_users, OfferViewHolder.class, pretraziGrad) {
             @Override
             protected void populateViewHolder(final OfferViewHolder viewHolder, final Offer model, int position) {
                 viewHolder.setKorisnik(model.getImePrezime());
@@ -120,43 +185,6 @@ public class ActiveUsersFragment extends BaseFragment implements FragmentExtensi
 
         activeUsersList.setAdapter(firebaseRecyclerAdapter);
     }
-
-    @Override
-    public String getName() {
-        return "Aktivni";
-    }
-
-    @Override
-    public Fragment getFragment() {
-        return this;
-    }
-
-    @Override
-    public int getIcon() {
-        return R.drawable.ic_group_black_24dp;
-    }
-
-    public static class OfferViewHolder extends RecyclerView.ViewHolder{
-        View view;
-        public OfferViewHolder(View itemView){
-            super(itemView);
-            view = itemView;
-        }
-        public void setKorisnik(String imePrezime){
-            TextView textViewImePrezime = view.findViewById(R.id.textViewImePrezime);
-            textViewImePrezime.setText(imePrezime);
-        }
-       public void setNapomena(String napomena){
-           TextView textViewNapomena = view.findViewById(R.id.textViewNapomena);
-           textViewNapomena.setText(napomena);
-        }
-        public void setImage(Context ctx, String image){
-            ImageView imageViewSlika = view.findViewById(R.id.imageViewActiveUser);
-            Picasso.with(ctx).load(image).into(imageViewSlika);
-        }
-    }
-
-
 
 
 }

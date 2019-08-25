@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import hr.dostavifrende.dostavifrende.ChatMessage;
 import hr.dostavifrende.dostavifrende.Deal;
 import hr.dostavifrende.dostavifrende.R;
+import hr.dostavifrende.dostavifrende.button.fragments.ConfirmButtonFragment;
 
 public class ChatFragment extends Fragment {
 
@@ -96,6 +97,7 @@ public class ChatFragment extends Fragment {
                                 rootReference.child("Deals").child(user.getUid()).push().setValue(new Deal(userId, "aktivno"));
                             }else {
                                 Toast.makeText(getContext(),"Dogovor već postoji!",Toast.LENGTH_SHORT).show();
+                                ConfirmButtonFragment confirmButtonFragment = new ConfirmButtonFragment();
                             }
 
                         }
